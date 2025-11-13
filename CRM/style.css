@@ -1,0 +1,399 @@
+    :root {
+      --color-primary: #2563eb; 
+      --color-text: #0f172a;    
+      --color-bg: #ffffff;      
+      --color-bg-soft: #f1f5f9; 
+      --color-accent: #16a34a;  
+
+      --radius: 0.5rem;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 10px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    html, body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.55;
+      color: var(--color-text);
+      background: var(--color-bg-soft);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--space-5) var(--space-4);
+    }
+
+    header {
+      background: var(--color-bg);
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--space-4);
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: 0.2px;
+    }
+    .brand strong {
+      color: var(--color-primary);
+    }
+
+    .role {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+    }
+    .role select, .role button {
+      padding: 0.5rem 0.65rem;
+      border-radius: var(--radius);
+      border: 1px solid #cbd5e1;
+      background: var(--color-bg);
+    }
+    .role .status {
+      grid-column: 1 / -1;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.85rem;
+      border: 1px solid #cbd5e1;
+      background: var(--color-bg);
+    }
+    .chip--student { color: #334155; }
+    .chip--Admin { color: var(--color-accent); border-color: var(--color-accent); }
+
+    main {
+      display: grid;
+      gap: var(--space-6);
+      margin-top: var(--space-4);
+    }
+
+    .card {
+      background: var(--color-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #e2e8f0;
+    }
+    .card header {
+      position: static;
+      border: 0;
+      background: transparent;
+    }
+    .card .card-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .card .card-body {
+      padding: var(--space-4);
+    }
+
+    /* Notices */
+    .notice {
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius);
+      background: #e0e7ff; /* light primary tint */
+      color: #1e40af; /* primary-800 */
+      border: 1px solid #bfdbfe;
+    }
+
+    /* Form */
+    form fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: var(--space-4);
+    }
+    .grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+    @media (min-width: 720px) {
+      .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      background: var(--color-bg);
+      box-sizing: border-box;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+
+    .actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.6rem 0.9rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: filter 120ms ease, box-shadow 120ms ease; /* added transition for hover/focus */
+    }
+    .btn.secondary {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-color: #cbd5e1;
+    }
+    .btn.danger {
+      background: #dc2626;
+    }
+    .btn:disabled,
+    .btn[aria-disabled="true"] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    /* subtle modern hover/focus states for buttons, smoother row hover */
+    .btn:hover,
+    .btn:focus-visible {
+      filter: brightness(0.97);
+      box-shadow: var(--shadow-md);
+      outline: none;
+    }
+
+    /* Filters */
+    .filters {
+      display: grid;
+      gap: var(--space-3);
+    }
+    @media (min-width: 720px) {
+      .filters { grid-template-columns: 1fr 240px; }
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: var(--color-bg);
+    }
+    thead th {
+      text-align: left;
+      font-size: 0.9rem;
+      color: #475569;
+      padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    tbody td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+    /* smoother row hover */
+    tbody tr {
+      transition: background-color 120ms ease;
+    }
+    .muted { color: #64748b; font-size: 0.9rem; }
+
+    /* Role states driving UI */
+    body.role-student .Admin-only {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    body.role-student .hide-when-student {
+      display: none !important;
+    }
+
+    /* Student-only containers visibility rules */
+    .student-only { display: none; }
+    body.role-student .student-only { display: block; }
+
+    /* Role-specific visibility */
+    .hide-when-student {
+      display: block;
+    }
+    .role-student .hide-when-student {
+      display: none;
+    }
+    
+    .hide-when-Admin {
+      display: block;
+    }
+    .role-Admin .hide-when-Admin {
+      display: none;
+    }
+    
+    .hide-when-accountant {
+      display: block;
+    }
+    .role-accountant .hide-when-accountant {
+      display: none;
+    }
+    
+    .Admin-only-section {
+      display: none;
+    }
+    .role-Admin .Admin-only-section {
+      display: block;
+    }
+    
+    .accountant-only-section {
+      display: none;
+    }
+    .role-accountant .accountant-only-section {
+      display: block;
+    }
+    
+    .student-only-section {
+      display: none;
+    }
+    .role-student .student-only-section {
+      display: block;
+    }
+
+    /* Hide accountant section in Admin mode */
+    .role-Admin .accountant-only-section {
+      display: none !important;
+    }
+    .role-Admin .accountant-only {
+      display: none !important;
+    }
+    /* Hide Admin sections in accountant mode */
+    .role-accountant .Admin-only-section {
+      display: none !important;
+    }
+    .role-accountant .hide-when-accountant {
+      display: none !important;
+    }
+    /* Hide accountant section in student mode */
+    .role-student .accountant-only-section {
+      display: none !important;
+    }
+    .role-student .accountant-only {
+      display: none !important;
+    }
+
+    footer {
+      margin: var(--space-6) 0 var(--space-4);
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Modal styles for Admin student detail view */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .modal {
+      background: var(--color-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 720px;
+      width: calc(100% - 2rem);
+      border: 1px solid #e2e8f0;
+    }
+    .modal header, .modal .content, .modal footer {
+      padding: var(--space-4);
+    }
+    .clickable-row {
+      cursor: pointer;
+    }
+
+    .avatar { width: 96px; height: 96px; border-radius: 9999px; object-fit: cover; background: #e2e8f0; display: inline-block; }
+    .avatar.sm { width: 64px; height: 64px; }
+    .avatar.lg { width: 120px; height: 120px; }
+    .avatar-initials {
+      width: 96px; height: 96px; border-radius: 9999px;
+      background: #cbd5e1; color: #0f172a; display:flex; align-items:center; justify-content:center; font-weight:700;
+    }
+
+    .accountant-only { display: none; }
+    body.role-accountant .accountant-only { display: block; }
+    body.role-accountant .Admin-only { pointer-events: none; opacity: 0.6; }
+    body.role-accountant .hide-when-accountant { display: none !important; }
+
+    /* Small helper text */
+    .help { font-size: 0.85rem; color: #64748b; }
+
+    .segmented {
+      display: inline-flex;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--color-bg);
+    }
+    .segmented button {
+      appearance: none;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: background-color 120ms ease, color 120ms ease;
+    }
+    .segmented button + button {
+      border-left: 1px solid #e2e8f0;
+    }
+    .segmented button[aria-pressed="true"] {
+      background: #0ea5e9; /* sky-500 */
+      color: #fff;
+    }
+    .segmented button:focus-visible {
+      outline: 2px solid #0ea5e9;
+      outline-offset: -2px;
+    }
+    /* Hide legacy role controls to declutter UI (fallback elements remain in DOM) */
+    #enterAdminBtn, #enterAccountantBtn { display: none; }
+    #roleSelect { display: none; }
