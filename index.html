@@ -1,0 +1,318 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shanthiniketan College CRM — Admissions & Student Management</title>
+  <meta name="description" content="Simple CRM for SHANTHINIKETAN college admissions and student management. Students and Admins can view; only Admins can add/edit." />
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="role-student">
+  <header>
+    <div class="header-inner" role="banner">
+      <div class="brand" aria-label="Application">
+        <h1>
+          <strong>SHANTHINIKETAN College CRM</strong> — Admissions & Student Management
+        </h1>
+      </div>
+
+      <div class="role" aria-label="Role selection">
+        <div class="chip" id="roleChip">
+          Mode: <strong id="roleLabel" class="chip--student">Student (view-only)</strong>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Mode switch">
+          <button id="roleBtnStudent" role="tab" aria-selected="true" aria-pressed="true">Student</button>
+          <button id="roleBtnAdmin" role="tab" aria-selected="false" aria-pressed="false">Admin</button>
+          <button id="roleBtnAccountant" role="tab" aria-selected="false" aria-pressed="false">Accountant</button>
+        </div>
+
+        <select id="roleSelect" aria-label="Select role">
+          <option value="student">Student</option>
+          <option value="Admin">Admin</option>
+          <option value="accountant">Accountant</option>
+        </select>
+        <button id="enterAdminBtn" class="btn secondary" aria-describedby="AdminHelp">
+          Enter Admin Mode
+        </button>
+        <button id="enterAccountantBtn" class="btn secondary" aria-describedby="accountantHelp">
+          Enter Accountant Mode
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="notice" role="status" aria-live="polite" id="modeNotice">
+      You are in Student mode. Viewing is enabled; editing is disabled.
+    </div>
+
+    <main role="main">
+      <!-- Add / Edit Student -->
+      <section class="card hide-when-student Admin-only-section" aria-labelledby="formTitle">
+        <div class="card-header">
+          <h2 id="formTitle">Add / Edit Student</h2>
+          <p class="muted">Courses allowed: BCA, B.Com, BSc</p>
+        </div>
+        <div class="card-body">
+          <form id="studentForm" autocomplete="on" novalidate>
+            <fieldset>
+              <div class="grid cols-3">
+                <div>
+                  <label for="name">Full Name</label>
+                  <input id="name" name="name" type="text" placeholder="e.g., Syed Mahmood Taha" required />
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="Shahid@example.com" required />
+                </div>
+                <div>
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="10-digit number" pattern="[0-9]{10}" />
+                </div>
+                <div>
+                  <label for="regNo">Register Number</label>
+                  <input id="regNo" name="regNo" type="text" placeholder="U023xxxxx" />
+                </div>
+              </div>
+
+              <div class="grid cols-3">
+                <div>
+                  <label for="course">Course</label>
+                  <select id="course" name="course" required>
+                    <option value="">Select a course</option>
+                    <option value="BCA">BCA</option>
+                    <option value="B.Com">B.Com</option>
+                    <option value="BSc">BSc</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="admissionDate">Admission Date</label>
+                  <input id="admissionDate" name="admissionDate" type="date" required />
+                </div>
+                <div>
+                  <label for="notes">Notes</label>
+                  <input id="notes" name="notes" type="text" placeholder="Optional remarks" />
+                </div>
+              </div>
+
+              <div class="grid cols-3">
+                <div>
+                  <label for="studentId">Student ID (auto-generated)</label>
+                  <input id="studentId" name="studentId" type="text" placeholder="Auto-generated on save" readonly />
+                </div>
+                <div>
+                  <label for="photo">Profile Photo</label>
+                  <input id="photo" name="photo" type="file" accept="image/*" class="Admin-only" />
+                  <div class="actions" style="margin-top: 0.5rem;">
+                    <img id="photoPreview" class="avatar sm" alt="Profile preview" src="/placeholder.svg" style="display:none;" />
+                    <button type="button" id="removePhotoBtn" class="btn secondary Admin-only">Remove Photo</button>
+                  </div>
+                  <p class="help">Optional. JPG/PNG; shown in Admin details and student view.</p>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button type="submit" id="saveBtn" class="btn Admin-only">Save Student</button>
+                <button type="button" id="resetBtn" class="btn secondary">Reset</button>
+                <span id="editHint" class="muted" aria-live="polite"></span>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+
+      <!-- Search & Filters -->
+      <section class="card hide-when-student Admin-only-section" aria-labelledby="listTitle">
+        <div class="card-header">
+          <h2 id="listTitle">Students</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-wrap" role="region" aria-label="Student table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Student ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Register No</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Course</th>
+                  <th scope="col">Admission Date</th>
+                  <th scope="col">Notes</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTbody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card student-only-section" id="studentLoginCard" aria-labelledby="studentLoginTitle">
+        <div class="card-header">
+          <h2 id="studentLoginTitle">Student Login</h2>
+          <p class="muted">Enter your 4-digit Student ID provided by your Admin and the common password.</p>
+        </div>
+        <div class="card-body">
+          <form id="studentLoginForm">
+            <fieldset>
+              <div class="grid cols-3">
+                <div>
+                  <label for="loginStudentId">Student ID (4 digits)</label>
+                  <input id="loginStudentId" name="loginStudentId" type="text" inputmode="numeric" pattern="\d{4}" placeholder="0001" required />
+                </div>
+                <div>
+                  <label for="loginPassword">Password</label>
+                  <input id="loginPassword" name="loginPassword" type="password" placeholder="common password" required />
+                </div>
+              </div>
+              <div class="actions">
+                <button type="submit" class="btn">Login</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+
+      <section class="card student-only-section" id="studentSelfCard" aria-labelledby="studentSelfTitle" style="display:none">
+        <div class="card-header">
+          <h2 id="studentSelfTitle">My Profile</h2>
+          <p class="muted" id="studentWelcome">Welcome.</p>
+        </div>
+        <div class="card-body">
+          <div class="actions" style="align-items:center; gap: 1rem; margin-bottom: 0.5rem;">
+            <span id="studentAvatarContainer"></span>
+            <span class="muted">Profile photo</span>
+          </div>
+
+          <div id="studentDetails" class="grid cols-3" aria-live="polite"></div>
+          <hr style="margin: var(--space-5) 0; border: 0; border-top: 1px solid #e2e8f0;" />
+
+          <h3>Change Password</h3>
+          <form id="studentPasswordForm">
+            <fieldset>
+              <div class="grid cols-3">
+                <div>
+                  <label for="newPassword">New Password</label>
+                  <input id="newPassword" name="newPassword" type="password" placeholder="Choose a new password" required />
+                </div>
+                <div>
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Re-enter new password" required />
+                </div>
+              </div>
+              <div class="actions">
+                <button type="submit" class="btn">Update Password</button>
+                <button type="button" id="studentLogoutBtn" class="btn secondary">Logout</button>
+              </div>
+            </fieldset>
+          </form>
+          <hr style="margin: var(--space-5) 0; border: 0; border-top: 1px solid #e2e8f0;" />
+          <h3>My Fees</h3>
+          <div class="table-wrap" role="region" aria-label="My fee table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Receipt No</th>
+                  <th scope="col">Note</th>
+                </tr>
+              </thead>
+              <tbody id="studentFeesTbody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      
+      <section class="card accountant-only" id="financialDetailsCard" aria-labelledby="financialDetailsTitle" style="display:none">
+        <div class="card-header">
+          <h2 id="financialDetailsTitle">Financial Details</h2>
+          <p class="muted">View and manage financial records for students.</p>
+        </div>
+        <div class="card-body">
+          <div id="financialDetails" class="grid cols-3" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Accountant Fee Management -->
+      <section class="card accountant-only-section" id="acctCard" aria-labelledby="acctTitle">
+        <div class="card-header">
+          <h2 id="acctTitle">Fee Management</h2>
+          <p class="muted">Add payments for students. Students can see their fees in their profile.</p>
+        </div>
+        <div class="card-body">
+          <form id="acctForm">
+            <fieldset>
+              <div class="grid cols-3">
+                <div>
+                  <label for="acctStudentSelect">Select Student</label>
+                  <select id="acctStudentSelect" required></select>
+                </div>
+                <div>
+                  <label for="feeAmount">Amount</label>
+                  <input id="feeAmount" name="feeAmount" type="number" step="0.01" min="0" placeholder="e.g., 15000" required />
+                </div>
+                <div>
+                  <label for="feeReceipt">Receipt No</label>
+                  <input id="feeReceipt" name="feeReceipt" type="text" placeholder="e.g., RCPT-2025-0001" required />
+                </div>
+                <div>
+                  <label for="feeDate">Date</label>
+                  <input id="feeDate" name="feeDate" type="date" required />
+                </div>
+                <div>
+                  <label for="feeNote">Note</label>
+                  <input id="feeNote" name="feeNote" type="text" placeholder="Optional note" />
+                </div>
+              </div>
+              <div class="actions">
+                <button type="submit" class="btn">Add Payment</button>
+              </div>
+            </fieldset>
+          </form>
+
+          <h3 style="margin-top: var(--space-5);">Payments for Selected Student</h3>
+          <div class="table-wrap" role="region" aria-label="Fee table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Receipt No</th>
+                  <th scope="col">Note</th>
+                </tr>
+              </thead>
+              <tbody id="acctFeesTbody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Student details modal for Admin view -->
+    <div id="studentDetailModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="studentDetailTitle" aria-hidden="true">
+      <div class="modal">
+        <header style="display:flex; align-items:center; justify-content:space-between;">
+          <h3 id="studentDetailTitle">Student Details</h3>
+          <button id="closeStudentDetail" class="btn secondary">Close</button>
+        </header>
+        <div class="content" id="studentDetailContent"></div>
+        <!-- add fees section in Admin modal -->
+        <div class="content" id="studentDetailFees"></div>
+        <footer></footer>
+      </div>
+    </div>
+
+    <footer role="contentinfo">
+      © <span id="year"></span> SHANTHINIKETAN College CRM. View for students; manage for Admins.
+    </footer>
+  </div>
+  <script src="/index.js"></script>
+</body>
+</html>
